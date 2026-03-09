@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather App</title>
+  <link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0d6efd" />
+
+  <link rel="stylesheet" href="style.css" />
+  <link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet/dist/leaflet.css"
+/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</head>
+<body>
+
+<div class="app">
+
+  <header>
+    <h2>My Weather App</h2>
+  </header>
+
+  <main id="screenContainer">
+
+    <!-- HOME -->
+    <section class="screen active" id="homeScreen">
+      <div class="home-card">
+        <h2 id="greeting">Hello 👋</h2>
+        <p class="home-username">Welcome, <span id="homeUsername">User</span> 👋</p>
+<p class="sub-text">Here’s your weather overview</p>
+<div class="today-card">
+  <h3>Today</h3>
+  <p class="today-temp">🌡️ -- °C</p>
+  <p class="today-city">No city selected</p>
+  <button onclick="showScreen(1)">View Full Weather →</button>
+</div>
+  <h2>👋 Welcome</h2>
+  <p>Check today’s weather & forecast</p>
+</div>
+<div class="quick-actions">
+  <button onclick="showScreen(1)">🌦️ Check Weather</button>
+  <button onclick="showScreen(2)">👤 Profile</button>
+</div>
+<div class="features">
+  <div class="feature-card">📍 Live Location Weather</div>
+  <div class="feature-card">📆 5-Day Forecast</div>
+  <div class="feature-card">⏰ Hourly Updates</div>
+  <div class="feature-card">🌙 Dark Mode</div>
+</div>
+
+    </section>
+   
+
+    <!-- WEATHER -->
+   <section class="screen" id="weatherScreen">
+
+  <h2>Weather 🌦️</h2>
+
+  <div class="search-box">
+    <input type="text" id="cityInput" placeholder="Enter city..." />
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="action-buttons">
+    <button onclick="showScreen(1); getWeather()">🔍</button>
+    <button onclick="showScreen(1); getLocationWeather()">📍</button>
+    <button onclick="openMapPage()">🗺️</button>
+  </div>
+
+<div id="mapContainer" style="display:none; height:400px; margin-top:15px;"></div>
+
+ <!-- WEATHER ALERT -->
+<div id="weatherAlert" class="weather-alert" style="display:none;"></div>
+
+      <!-- WEATHER CARD -->
+      <div class="weather-card">
+  <p id="loadingText" class="loading-text">Loading weather...</p>
+
+  <h3 id="cityName">--</h3>
+  <img id="weatherIcon" class="weather-icon">
+  <p id="conditionText" class="condition-text">--</p>
+
+  <div class="weather-stats">
+    <div class="stat">🌡️ <span id="temp">--</span> °C</div>
+    <div class="stat">💧 <span id="humidity">--</span> %</div>
+    <div class="stat">🌬️ <span id="wind">--</span> km/h</div>
+  </div>
+
+  <!-- ✅ AQI MUST BE HERE -->
+  <div class="air-quality-card">
+  <h3>Air Quality</h3>
+  <p class="aqi-value">AQI: <span id="aqiValue">--</span></p>
+  <p id="aqiStatus">Loading...</p>
+</div>
+</div>
+
+<h3>5-Day Forecast</h3>
+<div id="forecastContainer" class="forecast-container"></div>
+
+<h3>Hourly Forecast</h3>
+<div id="hourlyContainer" class="hourly-container"></div>
+
+<h3>Temperature Trend</h3>
+<canvas id="tempChart" height="120"></canvas>
+
+    </section>
+
+
+    <!-- PROFILE -->
+<section class="screen" id="profileScreen">
+  <h2>Profile 👤</h2>
+
+  <!-- USER CARD -->
+  <div class="profile-card">
+    <img
+      id="profileAvatar"
+      src="https://i.pravatar.cc/150"
+      class="profile-avatar"
+    />
+
+    <input
+      type="text"
+      id="usernameInput"
+      class="profile-input"
+      placeholder="Enter your name"
+    />
+
+    <p class="profile-role">Weather App User</p>
+
+    <div class="profile-buttons">
+  <button onclick="saveProfile()">💾 Save</button>
+
+  <!-- Hidden file input -->
+  <input
+    type="file"
+    id="avatarInput"
+    accept="image/*"
+    style="display:none"
+    onchange="uploadAvatar(event)"
+  />
+
+  <button onclick="document.getElementById('avatarInput').click()">
+    🖼️ Upload Photo
+  </button>
+</div>
+
+  </div>
+
+  <!-- STATS DASHBOARD -->
+  <div class="profile-stats">
+    <div class="stat-card">
+      <h4>🌦️</h4>
+      <p>Weather Checks</p>
+      <span id="statWeather">0</span>
+    </div>
+
+    <div class="stat-card">
+      <h4>📍</h4>
+      <p>Location Used</p>
+      <span id="statLocation">0</span>
+    </div>
+
+    <div class="stat-card">
+      <h4>⏰</h4>
+      <p>Hourly Views</p>
+      <span id="statHourly">0</span>
+    </div>
+
+    <div class="stat-card">
+      <h4>📆</h4>
+      <p>Forecast Views</p>
+      <span id="statForecast">0</span>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="profile-options">
+    <button onclick="toggleTheme()">🌙 Toggle Dark Mode</button>
+    <button onclick="checkLocationPermission()">📍 Location Settings</button>
+    <button onclick="toggleNotifications()">🔔 Notifications</button>
+  </div>
+
+  <!-- LOGOUT -->
+  <div class="profile-actions">
+    <button class="danger" onclick="logout()">🚪 Logout</button>
+  </div>
+</section>
+
+  </main>
+
+  <footer class="bottom-nav">
+    <button onclick="showScreen(0)">🏠</button>
+    <button onclick="showScreen(1)">🌦️</button>
+    <button onclick="showScreen(2)">👤</button>
+  </footer>
+
+</div>
+
+<button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

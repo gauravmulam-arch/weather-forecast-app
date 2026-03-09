@@ -1,0 +1,720 @@
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f8;
+  overflow-x: hidden;
+}
+
+
+/* ================= APP LAYOUT ================= */
+.app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+header {
+  padding: 15px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.screen {
+  display: none;
+  padding: 20px;
+}
+
+.screen.active {
+  display: block;
+}
+
+#screenContainer,
+main {
+  padding-bottom: 70px;
+}
+
+/* ================= BOTTOM NAV ================= */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+
+  background: #0d6efd;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  padding: 0;
+  z-index: 1000;
+}
+
+.bottom-nav button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* ================= SEARCH ================= */
+.search-box {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.search-box input {
+  width: 60%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+}
+
+.search-box button {
+  padding: 10px 14px;
+  border-radius: 50%;
+  border: none;
+  background: #0d6efd;
+  color: white;
+  cursor: pointer;
+}
+
+/* ================= WEATHER CARD ================= */
+.weather-card {
+  margin: 20px auto;
+  padding: 25px;
+  width: 90%;
+  max-width: 650px;
+  background: linear-gradient(135deg, #1cb5e0, #000851);
+  color: white;
+  border-radius: 22px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+
+.weather-card h3 {
+  margin-bottom: 10px;
+}
+
+.weather-icon {
+  width: 90px;
+  display: block;
+  margin: 10px auto;
+}
+
+.condition-text {
+  font-size: 18px;
+  text-transform: capitalize;
+  margin-bottom: 15px;
+}
+
+/* ================= WEATHER STATS ================= */
+.weather-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.stat {
+  flex: 1;
+  background: rgba(255,255,255,0.15);
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.stat span {
+  display: block;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* ================= FORECAST ================= */
+.forecast-container,
+.hourly-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 15px 0;
+}
+
+/* 5 day card */
+.forecast-card {
+  min-width: 100px;
+  background: rgba(255,255,255,0.2);
+  padding: 12px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+/* hourly card */
+.hourly-card {
+  min-width: 90px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.hourly-card img {
+  width: 40px;
+}
+
+/* ================= DARK MODE ================= */
+body.dark {
+  background: #121212;
+  color: white;
+}
+
+body.dark header,
+body.dark .bottom-nav {
+  background: #1f1f1f;
+}
+
+body.dark .weather-card {
+  background: linear-gradient(135deg, #2c3e50, #000000);
+}
+
+body.dark .hourly-card {
+  background: #2a2a2a;
+  color: white;
+}
+
+/* ================= THEME TOGGLE ================= */
+.theme-toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 9999;
+}
+.weather-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.stat {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.stat .icon {
+  font-size: 20px;
+}
+
+.stat .value {
+  white-space: nowrap;
+}
+.weather-card {
+  width: 100%;
+  max-width: 900px;
+  margin: 25px auto;
+  padding: 30px;
+  background: linear-gradient(135deg, #1cb5e0, #000851);
+  color: white;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+body.dark .weather-card {
+  background: linear-gradient(135deg, #232526, #414345);
+}
+
+
+.weather-icon {
+  width: 90px;
+  margin: 10px auto;
+  display: block;
+}
+
+.condition-text {
+  font-size: 18px;
+  text-transform: capitalize;
+  margin-bottom: 15px;
+}
+
+.weather-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.stat {
+  flex: 1;
+  background: rgba(255,255,255,0.2);
+  padding: 14px;
+  border-radius: 15px;
+  font-size: 16px;
+  font-weight: bold;
+}
+body.dark .weather-card {
+  background: linear-gradient(135deg, #232526, #414345);
+}
+.home-card {
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  color: white;
+  padding: 25px;
+  border-radius: 22px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  margin-bottom: 20px;
+}
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.quick-actions button {
+  padding: 20px;
+  border-radius: 18px;
+  border: none;
+  background: white;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.feature-card {
+  background: #ffffff;
+  padding: 18px;
+  border-radius: 16px;
+  text-align: center;
+  font-size: 14px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+body.dark .home-card {
+  background: linear-gradient(135deg, #232526, #414345);
+}
+
+body.dark .feature-card,
+body.dark .quick-actions button {
+  background: #2a2a2a;
+  color: white;
+}
+.today-card {
+  background: linear-gradient(135deg, #1cb5e0, #000851);
+  color: white;
+  padding: 25px;
+  border-radius: 22px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  margin: 20px 0;
+}
+
+.today-temp {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.today-city {
+  opacity: 0.85;
+}
+
+.today-card button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  background: white;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+}
+.profile-card {
+  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  color: white;
+  padding: 25px;
+  border-radius: 22px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  margin-bottom: 25px;
+}
+
+.profile-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid white;
+  margin-bottom: 10px;
+}
+
+.profile-name {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.profile-role {
+  opacity: 0.85;
+  font-size: 14px;
+}
+.profile-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  background: white;
+  padding: 18px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.stat-card h4 {
+  font-size: 22px;
+}
+
+.stat-card p {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.stat-card span {
+  font-size: 20px;
+  font-weight: bold;
+}
+.profile-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.profile-options button {
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: #f1f3f5;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.profile-actions button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 16px;
+  border: none;
+  background: #dc3545;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+body.dark .stat-card,
+body.dark .profile-options button {
+  background: #2a2a2a;
+  color: white;
+}
+.profile-input {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  width: 80%;
+  text-align: center;
+  font-size: 16px;
+}
+
+.profile-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.profile-buttons button {
+  padding: 10px 16px;
+  border-radius: 14px;
+  border: none;
+  background: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Dark mode support */
+body.dark .profile-input {
+  background: #2a2a2a;
+  color: white;
+}
+
+body.dark .profile-buttons button {
+  background: #333;
+  color: white;
+}
+.weather-alert {
+  margin: 15px auto;
+  padding: 14px;
+  width: 90%;
+  max-width: 650px;
+  border-radius: 14px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* Alert types */
+.alert-hot {
+  background: #ff6b6b;
+  color: white;
+}
+
+.alert-cold {
+  background: #74c0fc;
+  color: #002;
+}
+
+.alert-rain {
+  background: #4dabf7;
+  color: white;
+}
+
+.alert-wind {
+  background: #adb5bd;
+  color: #000;
+}
+/* 📱 MOBILE RESPONSIVE FIXES */
+@media (max-width: 768px) {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .screen {
+  display: none;
+  padding: 20px;
+}
+
+  .weather-card {
+    width: 100%;
+    margin: 15px auto;
+    padding: 18px;
+  }
+
+  .weather-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-box input,
+  .search-box button {
+    width: 100%;
+  }
+
+  .forecast-container,
+  .hourly-container {
+    justify-content: flex-start;
+  }
+
+  .bottom-nav {
+    font-size: 14px;
+  }
+
+  .profile-card {
+    width: 100%;
+  }
+
+  .profile-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+/* SEARCH INPUT */
+.search-box input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+/* ACTION BUTTONS (MOBILE FRIENDLY) */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.action-buttons button {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 20px;
+  background: linear-gradient(135deg, #0d6efd, #00c6ff);
+  color: white;
+  border: none;
+}
+.air-quality-card {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  text-align: center;
+}
+
+.aqi-value {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#aqiStatus {
+  margin-top: 6px;
+  font-weight: 600;
+}
+.form-message {
+  margin: 10px 0;
+  font-size: 14px;
+  text-align: center;
+}
+
+.form-message.error {
+  color: #ff4d4f;
+}
+
+.form-message.success {
+  color: #4caf50;
+}
+
+button.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+/* ================= AUTH PAGES ================= */
+
+.auth-body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: "Segoe UI", sans-serif;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  padding: 30px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  text-align: center;
+  color: #fff;
+}
+
+.auth-card h2 {
+  margin-bottom: 6px;
+}
+
+.auth-sub {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 20px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.auth-card input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: white;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.auth-card button:hover {
+  transform: translateY(-1px);
+  opacity: 0.9;
+}
+
+.auth-switch {
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.auth-switch a {
+  color: #00c6ff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.reset-btn {
+  margin-top: 14px;
+  background: transparent;
+  color: #ff6b6b;
+  font-size: 13px;
+}
+
+.form-message {
+  min-height: 18px;
+  margin-bottom: 12px;
+  font-size: 13px;
+}
+
+.form-message.error {
+  color: #ff6b6b;
+}
+
+.form-message.success {
+  color: #4caf50;
+}
+
+button.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}

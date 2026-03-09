@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Map</title>
+
+  <!-- Leaflet CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+  />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      padding: 12px;
+      background: #0d6efd;
+      color: white;
+      text-align: center;
+    }
+
+    #map {
+      height: calc(100vh - 50px);
+      width: 100%;
+    }
+
+    #backBtn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  background: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+#backBtn:hover {
+  background: #f0f0f0;
+}
+
+  </style>
+</head>
+<body>
+
+<header>
+  🌍 Weather Alert Map
+</header>
+<button id="backBtn" onclick="goBackToApp()">⬅ Back to App</button>
+
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+    // APPLY DARK MODE FROM APP
+const theme = localStorage.getItem("theme");
+
+  if (theme === "dark") {
+    document.body.style.background = "#121212";
+  }
+
+  const map = L.map("map").setView([20, 0], 2);
+
+  // ✅ REPLACED TILE LAYER (AUTO DARK / LIGHT)
+  const tileUrl =
+    theme === "dark"
+      ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+      : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+
+  L.tileLayer(tileUrl, {
+    attribution: "© OpenStreetMap"
+  }).addTo(map);
+
+  // 🌍 MAJOR CITIES WITH COORDINATES
+const alertCities = [
+  { name: "Delhi", lat: 28.6139, lon: 77.2090 },
+  { name: "Mumbai", lat: 19.0760, lon: 72.8777 },
+  { name: "Dubai", lat: 25.2048, lon: 55.2708 },
+  { name: "London", lat: 51.5074, lon: -0.1278 },
+  { name: "Moscow", lat: 55.7558, lon: 37.6173 },
+  { name: "New York", lat: 40.7128, lon: -74.0060 },
+  { name: "Tokyo", lat: 35.6762, lon: 139.6503 },
+  { name: "Sydney", lat: -33.8688, lon: 151.2093 }
+];
+
+const apiKey = "c55bb5e40d49ac9d1ba7d5a1ad812c31";
+
+alertCities.forEach(city => {
+  fetch(
+    `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&units=metric&appid=${apiKey}`
+  )
+    .then(res => res.json())
+    .then(data => {
+      addAlertMarker(data);
+    });
+});
+
+  // 🔴 NEW: Load mapWeatherData (latest searched city)
+const mapData = localStorage.getItem("mapWeatherData");
+
+if (mapData) {
+  const data = JSON.parse(mapData);
+
+  let iconEmoji = "🌦️";
+  if (data.main.temp > 40) iconEmoji = "🔥";
+  else if (data.main.temp < 5) iconEmoji = "❄️";
+  else if (data.wind.speed > 10) iconEmoji = "💨";
+  else if (data.weather[0].main === "Rain") iconEmoji = "🌧️";
+
+  const icon = L.divIcon({
+    html: `<div style="font-size:30px;">${iconEmoji}</div>`
+  });
+
+  // 🎯 THIS IS WHAT YOUR OLD PROJECT DID
+  map.setView([data.coord.lat, data.coord.lon], 7);
+
+  L.marker([data.coord.lat, data.coord.lon], { icon })
+    .addTo(map)
+    .bindPopup(`
+      <b>${data.name}</b><br>
+      ${data.weather[0].description}<br>
+      Temp: ${Math.round(data.main.temp)} °C
+    `)
+    .openPopup();
+}
+  
+  function addAlertMarker(data) {
+  let iconEmoji = "☀️";
+
+  if (data.main.temp >= 40) iconEmoji = "🔥 Extreme Heat";
+  else if (data.main.temp <= 5) iconEmoji = "❄️ Cold";
+  else if (data.wind.speed >= 12) iconEmoji = "💨 Strong Wind";
+  else if (data.weather[0].main === "Rain") iconEmoji = "🌧️ Rain";
+
+  const icon = L.divIcon({
+    html: `<div style="font-size:24px;">${iconEmoji.split(" ")[0]}</div>`
+  });
+
+  L.marker([data.coord.lat, data.coord.lon], { icon })
+    .addTo(map)
+    .bindPopup(`
+      <b>${data.name}</b><br>
+      ${iconEmoji}<br>
+      Temp: ${data.main.temp} °C<br>
+      Wind: ${data.wind.speed} m/s
+    `);
+}
+
+  function goBackToApp() {
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
