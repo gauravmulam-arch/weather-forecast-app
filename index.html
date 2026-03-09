@@ -15,8 +15,10 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
-  <script>
-window.location.href = "login.html";
+ <script>
+if (window.location.pathname === "/" || window.location.pathname === "/index.html") {
+    window.location.replace("login.html");
+}
 </script>
 <div class="app">
 
@@ -206,4 +208,5 @@ window.location.href = "login.html";
 <script src="script.js"></script>
 </body>
 </html>
+
 
